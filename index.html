@@ -102,6 +102,7 @@ html, body {
     padding: 14px 20px;
     gap: 14px;
     overflow-y: auto;
+    overflow-x: hidden; 
     background: #12292a;
     scrollbar-width: thin;
     scrollbar-color: #00fff0 transparent;
@@ -126,11 +127,10 @@ html, body {
     justify-content: flex-start;
 }
 
-
 .msg-container.user {
     justify-content: flex-end;
 }
-    
+
 .avatar {
     width: 36px;
     height: 36px;
@@ -147,6 +147,9 @@ html, body {
     border-radius: 24px;
     position: relative;
     user-select: text;
+    word-wrap: break-word;
+    overflow-wrap: break-word;   
+    white-space: pre-wrap;      
 }
 
 .msg.bot {
@@ -221,11 +224,6 @@ button.send-btn:hover {
     background: #00bfbf;
 }
 
-#messages::-webkit-scrollbar-thumb {
-  background-color: #00fff0;
-  border-radius: 3px;
-}
-
 </style>
 </head>
 
@@ -259,7 +257,14 @@ const userInput = document.getElementById("userInput");
 window.onload = () => {
     clearChat(); 
 };
-  
+
+function smoothScrollToBottom() {
+    messagesEl.scrollTo({
+        top: messagesEl.scrollHeight,
+        behavior: "smooth"
+    });
+}
+
 function appendMessage(text, sender) {
     const container = document.createElement("div");
     container.className = "msg-container " + sender;
@@ -290,7 +295,7 @@ function appendMessage(text, sender) {
     }
 
     messagesEl.appendChild(container);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+    smoothScrollToBottom();
 }
 
 function clearChat() {
@@ -313,7 +318,7 @@ async function sendMessage() {
     typingMessage.style.margin = "8px 20px";
     typingMessage.textContent = "Bot is typing...";
     messagesEl.appendChild(typingMessage);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+    smoothScrollToBottom();
 
     try {
         const res = await fetch(
@@ -322,15 +327,11 @@ async function sendMessage() {
         const data = await res.json();
 
         setTimeout(() => {
-            if (typingMessage) {
-                typingMessage.remove();
-            }
+            if (typingMessage) typingMessage.remove();
             appendMessage(data.respond || data.response || JSON.stringify(data), "bot");
         }, 700);
     } catch (err) {
-        if (typingMessage) {
-            typingMessage.remove();
-        }
+        if (typingMessage) typingMessage.remove();
         appendMessage("Error: " + err.message, "bot");
     }
 }
