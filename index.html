@@ -2,210 +2,243 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>RHY-SIMSIMI BOT WEBSITE</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
-html, body {
-    padding: 0;
+/* Reset and base */
+* {
     margin: 0;
-    height: 100dvh;   
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body {
-    font-family: 'Orbitron', sans-serif;
+html, body {
+    height: 100vh;
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: 'Orbitron', sans-serif;
+    color: #00fff0;
+    overflow: hidden; /* prevent scroll */
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100dvh;      
-    overflow: hidden;    
-    position: relative;
-    color: #e0f7fa;
+    align-items: flex-start; /* align top */
+    padding: 15px 0;
 }
 
-body::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(0,255,255,0.05) 1%, transparent 1%) repeat;
-    background-size: 40px 40px;
-    animation: moveBG 40s linear infinite;
-    z-index: 0;
-}
-
-@keyframes moveBG {
-    0% { transform: translate(0,0); }
-    100% { transform: translate(50px,50px); }
-}
-
+/* Neon glowing border and background for chatbox */
 .chatbox {
-    width: 90%;
-    max-width: 480px;
-    background: rgba(0,0,0,0.25);
-    backdrop-filter: blur(14px);
-    border-radius: 32px;
-    box-shadow: 0 20px 60px rgba(0,255,255,0.15);
+    position: relative;
+    width: 350px;
+    height: 600px;
+    background: #12292a;
+    border: 2px solid #00fff0;
+    border-radius: 18px;
+    box-shadow: 0 0 8px #00fff0;
     display: flex;
     flex-direction: column;
-    height: 90dvh;      
-    position: relative;
     overflow: hidden;
-    border: 2px solid #00ffe0;
-    animation: fadeInUp 1s ease;
 }
 
+/* Header */
 .chat-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 22px;
-    background: rgba(0,0,0,0.35);
-    border-radius: 32px 32px 0 0;
-    box-shadow: inset 0 -1px 6px rgba(0,255,255,0.2);
+    padding: 12px 16px;
+    background: #0d2023;
+    border-bottom: 2px solid #00fff0;
+    border-radius: 18px 18px 0 0;
 }
 
 .chat-header-left {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
 }
 
 .chat-header-left img {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    border: 2px solid #00ffe0;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    border: 2px solid #00fff0;
+    box-shadow: 0 0 6px #00fff0;
+    object-fit: cover;
 }
 
 .chat-header-left .title {
     font-size: 20px;
-    color: #00ffe0;
+    font-weight: 600;
+    color: #00fff0;
+    user-select: none;
 }
 
 .chat-header-left .status {
     font-size: 12px;
-    color: #00ffc4;
+    color: #11ffec;
+    user-select: none;
+    margin-top: 2px;
 }
 
+/* Clear Button */
 .clear-btn {
+    background: #ff0080;
+    color: white;
+    border: none;
+    border-radius: 20px;
     padding: 6px 14px;
     font-size: 12px;
-    background: #ff0080;
-    border-radius: 18px;
-    border: none;
     cursor: pointer;
-    color: white;
-    transition: 0.3s;
+    box-shadow: 0 0 8px #ff0080;
+    user-select: none;
+    transition: background-color 0.3s ease;
 }
 
 .clear-btn:hover {
-    background: #e60073;
-    transform: scale(1.05);
+    background: #cc006a;
 }
 
+/* Messages Area */
 #messages {
     flex: 1;
-    overflow-y: auto;
-    padding: 16px;
     display: flex;
     flex-direction: column;
+    padding: 14px 20px;
     gap: 14px;
-    scroll-behavior: smooth;
-    background: rgba(0,0,0,0.15);
+    overflow-y: auto;
+    background: #12292a;
+    scrollbar-width: thin;
+    scrollbar-color: #00fff0 transparent;
 }
 
+#messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#messages::-webkit-scrollbar-thumb {
+    background-color: #00fff0;
+    border-radius: 3px;
+}
+
+/* Message container */
 .msg-container {
     display: flex;
     gap: 12px;
     align-items: flex-end;
 }
 
-.msg {
-    padding: 14px 18px;
-    border-radius: 24px;
-    max-width: 70%;
-    font-size: 14px;
-    background: rgba(0,255,224,0.08);
-    border: 1px solid #00ffe0;
-    color: #00ffe0;
+/* Bot messages: avatar left */
+.msg-container.bot {
+    justify-content: flex-start;
 }
 
-.user {
-    background: rgba(0,255,255,0.2);
-    border-color: #00cfcf;
-    color: #00cfcf;
-    margin-left: auto;
+/* User messages: avatar right */
+.msg-container.user {
+    justify-content: flex-end;
 }
 
+/* Message avatar */
 .avatar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border: 1px solid #00ffe0;
+    border: 1.5px solid #00fff0;
+    box-shadow: 0 0 6px #00fff0;
+    object-fit: cover;
 }
 
-.timestamp {
-    font-size: 10px;
-    color: #00ffe0aa;
-    margin-top: 4px;
-}
-
-#typing {
-    display: none;
-    padding-left: 20px;
-    color: #00ffe0aa;
-    font-style: italic;
-}
-
-.input-area {
-    padding: 16px 20px;
-    display: flex;
-    gap: 12px;
-    border-top: 1px solid #00ffe0aa;
-    background: rgba(0,0,0,0.3);
-}
-
-input {
-    flex: 1;
+/* Message bubble */
+.msg {
+    max-width: 70%;
     padding: 14px 18px;
-    border-radius: 28px;
-    border: 1px solid #00ffe0aa;
-    background: rgba(0,0,0,0.25);
-    color: #00ffe0;
+    font-size: 14px;
+    border-radius: 24px;
+    position: relative;
+    user-select: text;
+}
+
+/* Bot message styling */
+.msg.bot {
+    background: transparent;
+    border: 1.5px solid #00fff0;
+    color: #00fff0;
+}
+
+/* User message styling */
+.msg.user {
+    background: #00fff0;
+    color: #12292a;
+    border: none;
+}
+
+/* Timestamp */
+.timestamp {
+    display: block;
+    font-size: 10px;
+    color: #00fff099;
+    margin-top: 4px;
+    user-select: none;
+}
+
+/* Input Area */
+.input-area {
+    display: flex;
+    gap: 10px;
+    padding: 15px 18px;
+    background: #0d2023;
+    border-top: 2px solid #00fff0;
+    border-radius: 0 0 18px 18px;
+}
+
+input#userInput {
+    flex: 1;
+    padding: 12px 18px;
+    border-radius: 24px;
+    border: 1.5px solid #00fff0;
+    background: transparent;
+    color: #00fff0;
+    font-size: 15px;
+    outline: none;
+    box-shadow: 0 0 8px #00fff0 inset;
+}
+
+input::placeholder {
+    color: #00fff095;
 }
 
 button.send-btn {
     width: 50px;
     height: 50px;
-    background: #00ffe0;
+    background: #00fff0;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    transition: background 0.25s ease;
+    box-shadow: 0 0 12px #00fff0;
 }
 
+/* Arrow icon on send button */
 button.send-btn::before {
     content: '';
     width: 0;
     height: 0;
-    border-left: 14px solid #002;
+    border-left: 14px solid #001f1f;
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
+}
+
+button.send-btn:hover {
+    background: #00bfbf;
+}
+
+/* Scrollbar for #messages */
+#messages::-webkit-scrollbar-thumb {
+  background-color: #00fff0;
+  border-radius: 3px;
 }
 
 </style>
@@ -213,43 +246,44 @@ button.send-btn::before {
 
 <body>
 
-<div class="chatbox">
+<div class="chatbox" role="main" aria-label="Chat box with Rhy Bot">
     <div class="chat-header">
         <div class="chat-header-left">
-            <img src="https://i.imgur.com/aJlGn9L.jpeg" />
+            <img src="https://i.imgur.com/aJlGn9L.jpeg" alt="Rhy Bot Avatar" />
             <div>
                 <div class="title">Rhy Bot</div>
                 <div class="status">Online</div>
             </div>
         </div>
-        <button class="clear-btn" onclick="clearChat()">Clear</button>
+        <button class="clear-btn" type="button" onclick="clearChat()">Clear</button>
     </div>
 
-    <div id="messages"></div>
-    <div id="typing">Bot is typing...</div>
+    <div id="messages" aria-live="polite" aria-relevant="additions"></div>
 
     <div class="input-area">
-        <input type="text" id="userInput" placeholder="Type a message..." />
-        <button class="send-btn" onclick="sendMessage()"></button>
+        <input type="text" id="userInput" aria-label="Type a message" placeholder="Type a message..." autocomplete="off" />
+        <button class="send-btn" type="button" onclick="sendMessage()" aria-label="Send message"></button>
     </div>
 </div>
 
 <script>
 const API_KEY = "a650beda66094d58b3e5c84b664420e8f2e65edd";
 const messagesEl = document.getElementById("messages");
+const userInput = document.getElementById("userInput");
 
 window.onload = () => {
-    appendMessage("Hi! I am Rhy bot🤖.", "bot");
+    clearChat(); // show initial message
 };
-
+  
 function appendMessage(text, sender) {
     const container = document.createElement("div");
-    container.className = "msg-container";
+    container.className = "msg-container " + sender;
 
     if (sender === "bot") {
         const avatar = document.createElement("img");
         avatar.src = "https://i.imgur.com/aJlGn9L.jpeg";
         avatar.className = "avatar";
+        avatar.alt = "Rhy Bot avatar";
         container.appendChild(avatar);
     }
 
@@ -257,34 +291,46 @@ function appendMessage(text, sender) {
     msg.className = "msg " + sender;
 
     const now = new Date();
-    const time = now.getHours().toString().padStart(2,'0') + ":" +
-                 now.getMinutes().toString().padStart(2,'0');
+    const time = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
 
-    msg.innerHTML = `
-        <span>${text}</span>
-        <div class="timestamp">${time}</div>
-    `;
-
+    msg.innerHTML = `<span>${text}</span><span class="timestamp">${time}</span>`;
     container.appendChild(msg);
+
+    if (sender === "user") {
+        // User message avatar to the right
+        const userAvatar = document.createElement("img");
+        userAvatar.src = "https://i.imgur.com/aJlGn9L.jpeg"; // You can replace with user avatar or omit
+        userAvatar.className = "avatar";
+        userAvatar.alt = "User avatar";
+        container.appendChild(userAvatar);
+    }
+
     messagesEl.appendChild(container);
     messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 function clearChat() {
     messagesEl.innerHTML = "";
-    appendMessage("Hi! I am Rhy bot🤖.", "bot");
+    appendMessage("Hi! I am Rhy bot 🤖.", "bot");
 }
 
 async function sendMessage() {
-    const input = document.getElementById("userInput");
-    const text = input.value.trim();
+    const text = userInput.value.trim();
     if (!text) return;
 
     appendMessage(text, "user");
-    input.value = "";
+    userInput.value = "";
+    userInput.focus();
 
-    const typing = document.getElementById("typing");
-    typing.style.display = "block";
+    // Show typing indicator (optional)
+    const typingMessage = document.createElement("div");
+    typingMessage.id = "typingIndicator";
+    typingMessage.style.color = "#00fff099";
+    typingMessage.style.fontStyle = "italic";
+    typingMessage.style.margin = "8px 20px";
+    typingMessage.textContent = "Bot is typing...";
+    messagesEl.appendChild(typingMessage);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
 
     try {
         const res = await fetch(
@@ -293,11 +339,15 @@ async function sendMessage() {
         const data = await res.json();
 
         setTimeout(() => {
-            typing.style.display = "none";
+            if (typingMessage) {
+                typingMessage.remove();
+            }
             appendMessage(data.respond || data.response || JSON.stringify(data), "bot");
         }, 700);
     } catch (err) {
-        typing.style.display = "none";
+        if (typingMessage) {
+            typingMessage.remove();
+        }
         appendMessage("Error: " + err.message, "bot");
     }
 }
