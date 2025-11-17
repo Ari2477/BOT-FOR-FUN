@@ -104,6 +104,7 @@ html, body {
     padding: 14px 20px;
     gap: 14px;
     overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll */
     background: #12292a;
     scrollbar-width: thin;
     scrollbar-color: #00fff0 transparent;
@@ -123,6 +124,8 @@ html, body {
     display: flex;
     gap: 12px;
     align-items: flex-end;
+    max-width: 100%; /* Make sure container does not overflow */
+    overflow-x: hidden; /* Hide horizontal overflow */
 }
 
 /* Bot messages: avatar left */
@@ -134,7 +137,12 @@ html, body {
 .msg-container.user {
     justify-content: flex-end;
 }
-    
+
+/* Prevent avatar from shrinking */
+.msg-container > img.avatar {
+    flex-shrink: 0;
+}
+
 .avatar {
     width: 36px;
     height: 36px;
@@ -151,6 +159,11 @@ html, body {
     border-radius: 24px;
     position: relative;
     user-select: text;
+
+    word-wrap: break-word; /* Wrap long text */
+    overflow-wrap: break-word;
+    white-space: normal;
+    flex-shrink: 1; /* Allow shrinking to prevent overflow */
 }
 
 .msg.bot {
@@ -231,7 +244,6 @@ button.send-btn:hover {
   background-color: #00fff0;
   border-radius: 3px;
 }
-
 </style>
 </head>
 
@@ -288,7 +300,6 @@ function appendMessage(text, sender) {
     container.appendChild(msg);
 
     if (sender === "user") {
-        // User message avatar to the right
         const userAvatar = document.createElement("img");
         userAvatar.src = "https://i.imgur.com/aJlGn9L.jpeg"; // You can replace with user avatar or omit
         userAvatar.className = "avatar";
@@ -313,7 +324,6 @@ async function sendMessage() {
     userInput.value = "";
     userInput.focus();
 
-    // Show typing indicator (optional)
     const typingMessage = document.createElement("div");
     typingMessage.id = "typingIndicator";
     typingMessage.style.color = "#00fff099";
