@@ -104,10 +104,11 @@ html, body {
     padding: 14px 20px;
     gap: 14px;
     overflow-y: auto;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden;
     background: #12292a;
     scrollbar-width: thin;
     scrollbar-color: #00fff0 transparent;
+    scroll-behavior: smooth; /* SMOOTH SCROLL ENABLED */
 }
 
 #messages::-webkit-scrollbar {
@@ -124,21 +125,18 @@ html, body {
     display: flex;
     gap: 12px;
     align-items: flex-end;
-    max-width: 100%; /* Make sure container does not overflow */
-    overflow-x: hidden; /* Hide horizontal overflow */
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
-/* Bot messages: avatar left */
 .msg-container.bot {
     justify-content: flex-start;
 }
 
-/* User messages: avatar right */
 .msg-container.user {
     justify-content: flex-end;
 }
 
-/* Prevent avatar from shrinking */
 .msg-container > img.avatar {
     flex-shrink: 0;
 }
@@ -148,8 +146,7 @@ html, body {
     height: 36px;
     border-radius: 50%;
     border: 1.5px solid #00fff0;
-    box-shadow: 0 0 6px #00fff0;
-    object-fit: cover;
+   box-shadow: 0 0 6px #00fff0;
 }
 
 .msg {
@@ -159,11 +156,10 @@ html, body {
     border-radius: 24px;
     position: relative;
     user-select: text;
-
-    word-wrap: break-word; /* Wrap long text */
+    word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
-    flex-shrink: 1; /* Allow shrinking to prevent overflow */
+    flex-shrink: 1;
 }
 
 .msg.bot {
@@ -175,7 +171,6 @@ html, body {
 .msg.user {
     background: #00fff0;
     color: #12292a;
-    border: none;
 }
 
 .timestamp {
@@ -225,7 +220,6 @@ button.send-btn {
     box-shadow: 0 0 12px #00fff0;
 }
 
-/* Arrow icon on send button */
 button.send-btn::before {
     content: '';
     width: 0;
@@ -238,18 +232,12 @@ button.send-btn::before {
 button.send-btn:hover {
     background: #00bfbf;
 }
-
-/* Scrollbar for #messages */
-#messages::-webkit-scrollbar-thumb {
-  background-color: #00fff0;
-  border-radius: 3px;
-}
 </style>
 </head>
 
 <body>
 
-<div class="chatbox" role="main" aria-label="Chat box with Rhy Bot">
+<div class="chatbox">
     <div class="chat-header">
         <div class="chat-header-left">
             <img src="https://i.imgur.com/aJlGn9L.jpeg" alt="Rhy Bot Avatar" />
@@ -258,14 +246,14 @@ button.send-btn:hover {
                 <div class="status">Online</div>
             </div>
         </div>
-        <button class="clear-btn" type="button" onclick="clearChat()">Clear</button>
+        <button class="clear-btn" onclick="clearChat()">Clear</button>
     </div>
 
-    <div id="messages" aria-live="polite" aria-relevant="additions"></div>
+    <div id="messages"></div>
 
     <div class="input-area">
-        <input type="text" id="userInput" aria-label="Type a message" placeholder="Type a message..." autocomplete="off" />
-        <button class="send-btn" type="button" onclick="sendMessage()" aria-label="Send message"></button>
+        <input type="text" id="userInput" placeholder="Type a message..." autocomplete="off" />
+        <button class="send-btn" onclick="sendMessage()"></button>
     </div>
 </div>
 
@@ -275,9 +263,16 @@ const messagesEl = document.getElementById("messages");
 const userInput = document.getElementById("userInput");
 
 window.onload = () => {
-    clearChat(); // show initial message
+    clearChat();
 };
-  
+
+function smoothScrollToBottom() {
+    messagesEl.scrollTo({
+        top: messagesEl.scrollHeight,
+        behavior: "smooth"
+    });
+}
+
 function appendMessage(text, sender) {
     const container = document.createElement("div");
     container.className = "msg-container " + sender;
@@ -286,7 +281,6 @@ function appendMessage(text, sender) {
         const avatar = document.createElement("img");
         avatar.src = "https://i.imgur.com/aJlGn9L.jpeg";
         avatar.className = "avatar";
-        avatar.alt = "Rhy Bot avatar";
         container.appendChild(avatar);
     }
 
@@ -301,14 +295,13 @@ function appendMessage(text, sender) {
 
     if (sender === "user") {
         const userAvatar = document.createElement("img");
-        userAvatar.src = "https://i.imgur.com/aJlGn9L.jpeg"; // You can replace with user avatar or omit
+        userAvatar.src = "https://i.imgur.com/aJlGn9L.jpeg";
         userAvatar.className = "avatar";
-        userAvatar.alt = "User avatar";
         container.appendChild(userAvatar);
     }
 
     messagesEl.appendChild(container);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+    smoothScrollToBottom();
 }
 
 function clearChat() {
@@ -322,16 +315,15 @@ async function sendMessage() {
 
     appendMessage(text, "user");
     userInput.value = "";
-    userInput.focus();
 
-    const typingMessage = document.createElement("div");
-    typingMessage.id = "typingIndicator";
-    typingMessage.style.color = "#00fff099";
-    typingMessage.style.fontStyle = "italic";
-    typingMessage.style.margin = "8px 20px";
-    typingMessage.textContent = "Bot is typing...";
-    messagesEl.appendChild(typingMessage);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+    const typingMsg = document.createElement("div");
+    typingMsg.id = "typingIndicator";
+    typingMsg.style.color = "#00fff099";
+    typingMsg.style.fontStyle = "italic";
+    typingMsg.style.margin = "8px 20px";
+    typingMsg.textContent = "Bot is typing...";
+    messagesEl.appendChild(typingMsg);
+    smoothScrollToBottom();
 
     try {
         const res = await fetch(
@@ -340,15 +332,12 @@ async function sendMessage() {
         const data = await res.json();
 
         setTimeout(() => {
-            if (typingMessage) {
-                typingMessage.remove();
-            }
-            appendMessage(data.respond || data.response || JSON.stringify(data), "bot");
+            typingMsg.remove();
+            appendMessage(data.respond || data.response || "No response", "bot");
         }, 700);
+
     } catch (err) {
-        if (typingMessage) {
-            typingMessage.remove();
-        }
+        typingMsg.remove();
         appendMessage("Error: " + err.message, "bot");
     }
 }
