@@ -8,7 +8,6 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
-/* Reset and base */
 * {
     margin: 0;
     padding: 0;
@@ -20,14 +19,13 @@ html, body {
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     font-family: 'Orbitron', sans-serif;
     color: #00fff0;
-    overflow: hidden; /* prevent scroll */
+    overflow: hidden; 
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* align top */
+    align-items: flex-start; 
     padding: 15px 0;
 }
 
-/* Neon glowing border and background for chatbox */
 .chatbox {
     position: relative;
     width: 350px;
@@ -41,7 +39,6 @@ html, body {
     overflow: hidden;
 }
 
-/* Header */
 .chat-header {
     display: flex;
     align-items: center;
@@ -137,8 +134,7 @@ html, body {
 .msg-container.user {
     justify-content: flex-end;
 }
-
-/* Message avatar */
+    
 .avatar {
     width: 36px;
     height: 36px;
@@ -148,7 +144,6 @@ html, body {
     object-fit: cover;
 }
 
-/* Message bubble */
 .msg {
     max-width: 70%;
     padding: 14px 18px;
@@ -158,21 +153,18 @@ html, body {
     user-select: text;
 }
 
-/* Bot message styling */
 .msg.bot {
     background: transparent;
     border: 1.5px solid #00fff0;
     color: #00fff0;
 }
 
-/* User message styling */
 .msg.user {
     background: #00fff0;
     color: #12292a;
     border: none;
 }
 
-/* Timestamp */
 .timestamp {
     display: block;
     font-size: 10px;
@@ -181,7 +173,6 @@ html, body {
     user-select: none;
 }
 
-/* Input Area */
 .input-area {
     display: flex;
     gap: 10px;
