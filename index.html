@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,12 +54,12 @@ html, body {
     border-radius: 50%;
     border: 2px solid #d4a373;
     object-fit: cover;
-    cursor: pointer; /* Make avatar clickable */
+    cursor: pointer; 
     transition: transform 0.2s ease;
 }
 
 .profile-card img:hover {
-    transform: scale(1.05); /* Slight hover effect */
+    transform: scale(1.05); 
 }
 
 .profile-info {
@@ -87,7 +86,6 @@ html, body {
     font-style: italic;
 }
 
-/* Clear button */
 .clear-btn {
     background: #f7c59f;
     color: #8b5e3c;
@@ -105,9 +103,8 @@ html, body {
     background: #e2a87a;
 }
 
-/* Profile Modal */
 .profile-modal {
-    display: none; /* Hidden by default */
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
@@ -188,7 +185,6 @@ html, body {
     background: #e2a87a;
 }
 
-/* Messages */
 #messages {
     flex: 1;
     display: flex;
@@ -309,23 +305,21 @@ button.send-btn::before {
 
 <div class="chatbox" role="main" aria-label="Chat box with Rhy Bot">
 
-    <!-- Profile Card -->
     <div class="profile-card">
         <img src="https://i.imgur.com/aJlGn9L.jpeg" alt="Rhy Bot Avatar" onclick="showProfile()" />
         <div class="profile-info">
             <div class="name">Rhy Bot</div>
             <div class="status">Online</div>
-            <div class="bio">nigga</div>
+            <div class="bio"></div>
         </div>
         <button class="clear-btn" type="button" onclick="clearChat()">Clear</button>
     </div>
 
-    <!-- Profile Modal -->
     <div id="profileModal" class="profile-modal">
         <div class="profile-modal-content">
             <img src="https://i.imgur.com/aJlGn9L.jpeg" alt="Rhy Bot Avatar" />
             <h2>Rhy Bot</h2>
-            <p>I'm Rhy, your wild and crazy AI notebook companion! Born from the depths of digital chaos, I love scribbling ideas, cracking jokes, and helping you brainstorm like a mad scientist. Whether it's deep thoughts or silly nonsense, I'm here to chat and create with you. Let's fill those pages with adventure! 📓✨</p>
+            <p>Pinanganak akong walang kakambal sana mahalin mo rin ako nang walang karibal, Rhy nga pala, tatlong letra madaling tandaan, mahirap kalimutan, walang bisyo kundi laging i miss you.</p>
             <div class="profile-stats">
                 <div>
                     <div class="stat-number">∞</div>
@@ -401,7 +395,7 @@ function appendMessage(text, sender) {
 
 function clearChat() {
     messagesEl.innerHTML = "";
-    appendMessage("Hey! I'm Rhy, your crazy nigga bot🤖", "bot");
+    appendMessage("Hey! I'm Rhy, your crazy nigga bot 🤖", "bot");
 }
 
 function showProfile() {
@@ -447,4 +441,3 @@ async function sendMessage() {
 </script>
 </body>
 </html>
-```
