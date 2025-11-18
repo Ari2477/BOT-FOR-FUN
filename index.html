@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RHY-SIMSIMI BOT WEBSITE</title>
+<title>Rhy-simsimi Chatbot</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Indie+Flower&display=swap');
 
 * {
     margin: 0;
@@ -16,24 +16,23 @@
 
 html, body {
     height: 100vh;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    font-family: 'Orbitron', sans-serif;
-    color: #00fff0;
-    overflow: hidden; 
+    background: #fef9f3; /* soft paper color */
+    font-family: 'Patrick Hand', 'Indie Flower', cursive;
     display: flex;
     justify-content: center;
-    align-items: flex-start; 
-    padding: 15px 0;
+    align-items: flex-start;
+    padding: 20px 0;
+    color: #333;
 }
 
 .chatbox {
     position: relative;
-    width: 350px;
-    height: 600px;
-    background: #12292a;
-    border: 2px solid #00fff0;
-    border-radius: 18px;
-    box-shadow: 0 0 8px #00fff0;
+    width: 360px;
+    height: 620px;
+    background: #fffefc; /* notebook page background */
+    border: 2px dashed #d4a373; /* notebook border style */
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -44,68 +43,62 @@ html, body {
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    background: #0d2023;
-    border-bottom: 2px solid #00fff0;
-    border-radius: 18px 18px 0 0;
+    background: #fff8e7;
+    border-bottom: 2px dashed #d4a373;
+    border-radius: 16px 16px 0 0;
 }
 
 .chat-header-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .chat-header-left img {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    border: 2px solid #00fff0;
-    box-shadow: 0 0 6px #00fff0;
+    border: 2px solid #d4a373;
     object-fit: cover;
 }
 
 .chat-header-left .title {
     font-size: 20px;
-    font-weight: 600;
-    color: #00fff0;
-    user-select: none;
+    font-weight: bold;
+    color: #8b5e3c;
 }
 
 .chat-header-left .status {
     font-size: 12px;
-    color: #11ffec;
-    user-select: none;
+    color: #b07c49;
     margin-top: 2px;
 }
 
 .clear-btn {
-    background: #ff0080;
-    color: white;
+    background: #f7c59f;
+    color: #8b5e3c;
     border: none;
-    border-radius: 20px;
-    padding: 6px 14px;
+    border-radius: 12px;
+    padding: 6px 12px;
     font-size: 12px;
     cursor: pointer;
-    box-shadow: 0 0 8px #ff0080;
-    user-select: none;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .clear-btn:hover {
-    background: #cc006a;
+    background: #e2a87a;
 }
 
 #messages {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 14px 20px;
+    padding: 16px 20px;
     gap: 14px;
     overflow-y: auto;
-    overflow-x: hidden; 
-    background: #12292a;
-    scrollbar-width: thin;
-    scrollbar-color: #00fff0 transparent;
+    overflow-x: hidden;
+    background: #fffefc;
 }
 
 #messages::-webkit-scrollbar {
@@ -113,7 +106,7 @@ html, body {
 }
 
 #messages::-webkit-scrollbar-thumb {
-    background-color: #00fff0;
+    background-color: #d4a373;
     border-radius: 3px;
 }
 
@@ -135,95 +128,83 @@ html, body {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border: 1.5px solid #00fff0;
-    box-shadow: 0 0 6px #00fff0;
+    border: 1.5px solid #d4a373;
     object-fit: cover;
 }
 
 .msg {
     max-width: 70%;
-    padding: 14px 18px;
-    font-size: 14px;
-    border-radius: 24px;
+    padding: 12px 16px;
+    font-size: 15px;
+    border-radius: 16px;
     position: relative;
-    user-select: text;
     word-wrap: break-word;
-    overflow-wrap: break-word;   
-    white-space: pre-wrap;      
+    white-space: pre-wrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
+/* Notebook-style bubbles */
 .msg.bot {
-    background: transparent;
-    border: 1.5px solid #00fff0;
-    color: #00fff0;
+    background: #fff8e7;
+    border-left: 3px solid #d4a373;
+    color: #5a3e2b;
 }
 
 .msg.user {
-    background: #00fff0;
-    color: #12292a;
-    border: none;
+    background: #fff1d6;
+    border-right: 3px solid #d4a373;
+    color: #5a3e2b;
 }
 
 .timestamp {
     display: block;
     font-size: 10px;
-    color: #00fff099;
+    color: #8b5e3c88;
     margin-top: 4px;
-    user-select: none;
 }
 
 .input-area {
     display: flex;
     gap: 10px;
-    padding: 15px 18px;
-    background: #0d2023;
-    border-top: 2px solid #00fff0;
-    border-radius: 0 0 18px 18px;
+    padding: 14px 18px;
+    background: #fff8e7;
+    border-top: 2px dashed #d4a373;
 }
 
 input#userInput {
     flex: 1;
-    padding: 12px 18px;
-    border-radius: 24px;
-    border: 1.5px solid #00fff0;
-    background: transparent;
-    color: #00fff0;
+    padding: 12px 16px;
+    border-radius: 16px;
+    border: 1.5px solid #d4a373;
+    background: #fffefc;
+    color: #5a3e2b;
     font-size: 15px;
     outline: none;
-    box-shadow: 0 0 8px #00fff0 inset;
 }
 
 input::placeholder {
-    color: #00fff095;
+    color: #b07c49aa;
 }
 
 button.send-btn {
-    width: 50px;
-    height: 50px;
-    background: #00fff0;
+    width: 46px;
+    height: 46px;
+    background: #f7c59f;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background 0.25s ease;
-    box-shadow: 0 0 12px #00fff0;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 button.send-btn::before {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 14px solid #001f1f;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
+    content: '➤';
+    font-size: 18px;
+    color: #5a3e2b;
 }
-
-button.send-btn:hover {
-    background: #00bfbf;
-}
-
 </style>
 </head>
 
@@ -244,7 +225,7 @@ button.send-btn:hover {
     <div id="messages" aria-live="polite" aria-relevant="additions"></div>
 
     <div class="input-area">
-        <input type="text" id="userInput" aria-label="Type a message" placeholder="Type a message..." autocomplete="off" />
+        <input type="text" id="userInput" aria-label="Type a message" placeholder="Write something..." autocomplete="off" />
         <button class="send-btn" type="button" onclick="sendMessage()" aria-label="Send message"></button>
     </div>
 </div>
@@ -300,7 +281,7 @@ function appendMessage(text, sender) {
 
 function clearChat() {
     messagesEl.innerHTML = "";
-    appendMessage("Hi! I am Rhy bot 🤖.", "bot");
+    appendMessage("Hey! I'm Rhy the crazy nigga bot", "bot");
 }
 
 async function sendMessage() {
@@ -313,10 +294,10 @@ async function sendMessage() {
 
     const typingMessage = document.createElement("div");
     typingMessage.id = "typingIndicator";
-    typingMessage.style.color = "#00fff099";
+    typingMessage.style.color = "#b07c49aa";
     typingMessage.style.fontStyle = "italic";
-    typingMessage.style.margin = "8px 20px";
-    typingMessage.textContent = "Bot is typing...";
+    typingMessage.style.margin = "8px 18px";
+    typingMessage.textContent = "Bot is writing...";
     messagesEl.appendChild(typingMessage);
     smoothScrollToBottom();
 
