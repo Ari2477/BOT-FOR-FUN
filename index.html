@@ -1,4 +1,5 @@
- <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -28,7 +29,7 @@ html, body {
 .chatbox {
     position: relative;
     width: 360px;
-    height: 620px;
+    height: 660px;
     background: #fffefc;
     border: 2px dashed #d4a373; 
     border-radius: 16px;
@@ -38,42 +39,56 @@ html, body {
     overflow: hidden;
 }
 
-.chat-header {
+/* Profile section */
+.profile-card {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 12px;
     padding: 12px 16px;
     background: #fff8e7;
     border-bottom: 2px dashed #d4a373;
     border-radius: 16px 16px 0 0;
 }
 
-.chat-header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.chat-header-left img {
-    width: 42px;
-    height: 42px;
+.profile-card img {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: 2px solid #d4a373;
     object-fit: cover;
+    cursor: pointer; /* Make avatar clickable */
+    transition: transform 0.2s ease;
 }
 
-.chat-header-left .title {
-    font-size: 20px;
+.profile-card img:hover {
+    transform: scale(1.05); /* Slight hover effect */
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info .name {
+    font-size: 18px;
     font-weight: bold;
     color: #8b5e3c;
 }
 
-.chat-header-left .status {
+.profile-info .status {
     font-size: 12px;
     color: #b07c49;
     margin-top: 2px;
 }
 
+.profile-info .bio {
+    font-size: 12px;
+    color: #5a3e2b;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+/* Clear button */
 .clear-btn {
     background: #f7c59f;
     color: #8b5e3c;
@@ -84,12 +99,97 @@ html, body {
     cursor: pointer;
     transition: background 0.3s ease;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-right: 16px;
 }
 
 .clear-btn:hover {
     background: #e2a87a;
 }
 
+/* Profile Modal */
+.profile-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.profile-modal-content {
+    background: #fffefc;
+    border: 2px dashed #d4a373;
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.profile-modal-content img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #d4a373;
+    object-fit: cover;
+    margin-bottom: 16px;
+}
+
+.profile-modal-content h2 {
+    font-size: 24px;
+    color: #8b5e3c;
+    margin-bottom: 8px;
+}
+
+.profile-modal-content p {
+    font-size: 14px;
+    color: #5a3e2b;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 16px;
+}
+
+.profile-stats div {
+    text-align: center;
+}
+
+.profile-stats .stat-number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d4a373;
+}
+
+.profile-stats .stat-label {
+    font-size: 12px;
+    color: #b07c49;
+}
+
+.close-btn {
+    background: #f7c59f;
+    color: #8b5e3c;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+    background: #e2a87a;
+}
+
+/* Messages */
 #messages {
     flex: 1;
     display: flex;
@@ -206,19 +306,43 @@ button.send-btn::before {
 }
 </style>
 </head>
-
 <body>
 
 <div class="chatbox" role="main" aria-label="Chat box with Rhy Bot">
-    <div class="chat-header">
-        <div class="chat-header-left">
-            <img src="https://i.imgur.com/aJlGn9L.jpeg" alt="Rhy Bot Avatar" />
-            <div>
-                <div class="title">Rhy Bot</div>
-                <div class="status">Online</div>
-            </div>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+        <img src="https://i.imgur.com/aJlGn9L.jpeg" alt="Rhy Bot Avatar" onclick="showProfile()" />
+        <div class="profile-info">
+            <div class="name">Rhy Bot</div>
+            <div class="status">Online</div>
+            <div class="bio">Your crazy AI notebook companion 🤖📓</div>
         </div>
         <button class="clear-btn" type="button" onclick="clearChat()">Clear</button>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="profile-modal">
+        <div class="profile-modal-content">
+            <img src="https://i.imgur.com/aJlGn9L.jpeg" alt="Rhy Bot Avatar" />
+            <h2>Rhy Bot</h2>
+            <p>I'm Rhy, your wild and crazy AI notebook companion! Born from the depths of digital chaos, I love scribbling ideas, cracking jokes, and helping you brainstorm like a mad scientist. Whether it's deep thoughts or silly nonsense, I'm here to chat and create with you. Let's fill those pages with adventure! 📓✨</p>
+            <div class="profile-stats">
+                <div>
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Conversations</div>
+                </div>
+                <div>
+                    <div class="stat-number">🤖</div>
+                    <div class="stat-label">AI Level</div>
+                </div>
+                <div>
+                    <div class="stat-number">📓</div>
+                    <div class="stat-label">Filled</div>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeProfile()">Close</button>
+        </div>
     </div>
 
     <div id="messages" aria-live="polite" aria-relevant="additions"></div>
@@ -233,16 +357,14 @@ button.send-btn::before {
 const API_KEY = "a650beda66094d58b3e5c84b664420e8f2e65edd";
 const messagesEl = document.getElementById("messages");
 const userInput = document.getElementById("userInput");
+const profileModal = document.getElementById("profileModal");
 
 window.onload = () => {
     clearChat(); 
 };
 
 function smoothScrollToBottom() {
-    messagesEl.scrollTo({
-        top: messagesEl.scrollHeight,
-        behavior: "smooth"
-    });
+    messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: "smooth" });
 }
 
 function appendMessage(text, sender) {
@@ -280,7 +402,15 @@ function appendMessage(text, sender) {
 
 function clearChat() {
     messagesEl.innerHTML = "";
-    appendMessage("Hey! I'm Rhy the crazy nigga bot 🤖", "bot");
+    appendMessage("Hey! I'm Rhy, your crazy nigga bot🤖", "bot");
+}
+
+function showProfile() {
+    profileModal.style.display = "flex";
+}
+
+function closeProfile() {
+    profileModal.style.display = "none";
 }
 
 async function sendMessage() {
@@ -316,6 +446,6 @@ async function sendMessage() {
     }
 }
 </script>
-
 </body>
 </html>
+```
