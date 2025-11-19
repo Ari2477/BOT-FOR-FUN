@@ -325,11 +325,29 @@ button.send-btn::before {
                     <div class="stat-number">∞</div>
                     <div class="stat-label">Conversations</div>
                 </div>
-                <div onclick="window.location.href='https://arigato-pi.vercel.app'"
-                 style="cursor: pointer;">
+                <div>
+                <a href="https://arigato-pi.vercel.app" class="click-glow">
                 <div class="stat-number">🤖</div>
-                <div class="stat-label">AI Level</div>
-              </div>
+            <div class="stat-label">AI Level</div>
+       </a>
+
+<style>
+.click-glow {
+    display: inline-block;
+    padding: 15px 20px;
+    border-radius: 12px;
+    transition: 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.click-glow:hover {
+    box-shadow: 0 0 12px rgba(0, 150, 255, 0.6);
+    background: rgba(0, 150, 255, 0.1);
+    cursor: pointer;
+}
+</style>
+                 </div>
             </div>
             <button class="close-btn" onclick="closeProfile()">Close</button>
         </div>
